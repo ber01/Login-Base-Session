@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AccountController {
 
+    @GetMapping("/")
+    public String getMain() {
+        return "main";
+    }
+
     @GetMapping("/sign-in")
     public String getLogin() {
         return "account/sign-in";
