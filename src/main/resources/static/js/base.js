@@ -1,11 +1,11 @@
 $(`.sign-up`).click(function () {
-
-    var jsonData = JSON.stringify({
-        email : $(`#email`).val(),
-        password : $(`#pwd`).val()
+    const jsonData = JSON.stringify({
+        email: $(`#email`).val(),
+        password: $(`#pwd`).val()
     });
 
-    alert(jsonData);
+    const token = $("meta[name='_csrf']").attr("content");
+    const header = $("meta[name='_csrf_header']").attr("content");
 
     $.ajax({
         url: "/sign-up",
@@ -13,12 +13,15 @@ $(`.sign-up`).click(function () {
         data: jsonData,
         contentType: "application/json",
         dataType: "json",
-        success: function () {
-            alert("성공");
+        beforeSend : function(xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function (data) {
+            alert(data['msg']);
             location.href = '/';
         },
-        error: function () {
-            alert("실패");
+        error: function (data) {
+            alert(data.responseText);
         }
     });
 });
