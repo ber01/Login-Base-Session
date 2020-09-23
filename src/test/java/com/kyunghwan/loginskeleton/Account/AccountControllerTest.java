@@ -1,6 +1,7 @@
 package com.kyunghwan.loginskeleton.Account;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kyunghwan.loginskeleton.Account.dto.AccountDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -26,6 +28,9 @@ public class AccountControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @DisplayName("로그인 화면 조회 테스트")
     @Test
     public void getSignIn() throws Exception {
@@ -39,7 +44,7 @@ public class AccountControllerTest {
     @DisplayName("리소스 적용 테스트")
     @Test
     public void getResource() throws Exception {
-        mockMvc.perform(get("/css/sign-in.css"))
+        mockMvc.perform(get("/css/base.css"))
                 .andDo(print())
                 .andExpect(status().isOk())
         ;
@@ -61,9 +66,14 @@ public class AccountControllerTest {
         String email = "email@email.com";
         String password = "password";
 
+        AccountDTO accountDTO = AccountDTO.builder()
+                .email(email)
+                .password(password)
+                .build();
+
         mockMvc.perform(post("/sign-up")
-                .param("email", email)
-                .param("password", password)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(accountDTO))
                 .with(csrf()))
                 .andDo(print())
                 .andExpect(status().isCreated())

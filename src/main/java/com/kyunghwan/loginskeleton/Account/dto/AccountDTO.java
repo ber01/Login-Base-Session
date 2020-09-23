@@ -2,10 +2,11 @@ package com.kyunghwan.loginskeleton.Account.dto;
 
 import com.kyunghwan.loginskeleton.Account.Account;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Data
+@Getter
+@Builder
 public class AccountDTO {
 
     public String email;
