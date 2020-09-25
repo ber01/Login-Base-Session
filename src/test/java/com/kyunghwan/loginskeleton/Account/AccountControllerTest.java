@@ -51,15 +51,6 @@ public class AccountControllerTest {
         ;
     }
 
-    @DisplayName("리소스 적용 테스트")
-    @Test
-    public void getResource() throws Exception {
-        mockMvc.perform(get("/css/base.css"))
-                .andDo(print())
-                .andExpect(status().isOk())
-        ;
-    }
-
     @DisplayName("회원가입 화면 조회 테스트")
     @Test
     public void getSignUp() throws Exception {
@@ -119,9 +110,9 @@ public class AccountControllerTest {
 
     private static Stream<Arguments> params() {
         return Stream.of(
-                Arguments.of(null, "password", "이메일 null"),
-                Arguments.of("email@email.com", null, "패스워드 null"),
-                Arguments.of(null, null, "이메일, 패스워드 null"),
+                Arguments.of(null, "password", "이메일 입력 X"),
+                Arguments.of("email@email.com", null, "패스워드 입력 X"),
+                Arguments.of(null, null, "이메일 입력 X, 패스워드 입력 X"),
                 Arguments.of("email", "password", "이메일 형식 오류"),
                 Arguments.of("email@email.com", "11", "패스워드 8자 미만"),
                 Arguments.of("email@email.com", "111111111111111111111111111", "패스워드 20자 초과"),
