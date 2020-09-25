@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -20,12 +22,12 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -40,6 +42,9 @@ public class AccountControllerTest {
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @DisplayName("로그인 화면 조회 테스트")
     @Test
@@ -84,7 +89,7 @@ public class AccountControllerTest {
         String msg = "회원가입 성공!";
         assertThat(string).contains(msg);
 
-        Account account = accountRepository.findByEmail(email);
+        Account account = accountRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
         assertThat(email).isEqualTo(account.getEmail());
         assertThat(password).isNotEqualTo(account.getPassword());
     }
@@ -93,7 +98,6 @@ public class AccountControllerTest {
     @ParameterizedTest(name = "#{index} : {2}")
     @MethodSource("params")
     public void failureSignUp(String email, String password, String message) throws Exception {
-
         AccountDTO accountDTO = AccountDTO.builder()
                 .email(email)
                 .password(password)
@@ -118,6 +122,43 @@ public class AccountControllerTest {
                 Arguments.of("email@email.com", "111111111111111111111111111", "패스워드 20자 초과"),
                 Arguments.of("email", "11", "이메일, 패스워드 형식 오류")
         );
+    }
+
+    @DisplayName("로그인 성공 테스트")
+    @Test
+    public void successSignIn() throws Exception {
+        String email = "123@email.com";
+        String password = "password";
+
+        accountRepository.save(Account.builder()
+                .email(email)
+                .password(passwordEncoder.encode(password))
+                .build());
+
+        mockMvc.perform(formLogin()
+                    .loginProcessingUrl("/sign-in")
+                    .user(email)
+                    .password(password))
+                .andDo(print())
+                .andExpect(redirectedUrl("/"))
+                .andExpect(status().is3xxRedirection())
+        ;
+    }
+
+    @DisplayName("로그인 실패 테스트")
+    @Test
+    public void failureSignIp() throws Exception {
+        String email = "123@email.com";
+        String password = "password";
+
+        mockMvc.perform(formLogin()
+                    .loginProcessingUrl("/sign-in")
+                    .user(email)
+                    .password(password))
+                .andDo(print())
+                .andExpect(redirectedUrl("/sign-in?error"))
+                .andExpect(status().is3xxRedirection())
+        ;
     }
 
 }
