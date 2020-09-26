@@ -211,6 +211,7 @@ public class AccountControllerTest {
     }
 
     private void saveAccount(String email, String password) {
+        accountRepository.deleteAll();
         accountRepository.save(Account.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))
