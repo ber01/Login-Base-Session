@@ -17,3 +17,14 @@
 |     JDK      |             JDK 11              |
 | 데이터베이스 |               H2                |
 |   빌드 툴    |          gradle-6.6.1           |
+
+## 의존성
+
+- Spring Web
+- Lombok
+- Thymeleaf
+- Spring Security
+- Spring Data JPA
+- H2 Database
+- Validation
+- JUnit Jupiter Params
