@@ -4,8 +4,7 @@ import com.kyunghwan.loginskeleton.Account.dto.AccountDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,9 +23,8 @@ public class AccountController {
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/")
-    public String getMain(Model model) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("name", user.getUsername());
+    public String getMain(Model model, @AuthenticationPrincipal Account account) {
+        model.addAttribute("name", account.getUsername());
         return "index";
     }
 
