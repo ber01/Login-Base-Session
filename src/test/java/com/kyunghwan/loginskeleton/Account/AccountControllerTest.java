@@ -162,6 +162,8 @@ public class AccountControllerTest {
                     .session((MockHttpSession) session))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(model().attributeExists("name"))
+                .andExpect(model().attribute("name", email))
                 .andExpect(view().name("index"));
     }
 
@@ -205,6 +207,7 @@ public class AccountControllerTest {
                     .param("password", password)
                     .session((MockHttpSession) session)
                     .with(csrf()))
+                .andDo(print())
                 .andExpect(redirectedUrl("http://localhost/test"))
                 .andExpect(status().is3xxRedirection())
         ;
