@@ -1,14 +1,14 @@
 package com.kyunghwan.loginskeleton.Account.dto;
 
 import com.kyunghwan.loginskeleton.Account.Account;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @Getter
 @Builder
