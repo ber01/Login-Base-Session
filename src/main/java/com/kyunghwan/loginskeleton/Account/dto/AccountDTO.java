@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Getter
+@Getter @Setter
 @Builder
 public class AccountDTO {
 

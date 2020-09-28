@@ -24,6 +24,7 @@ public class AccountController {
 
     @GetMapping("/")
     public String getMain(Model model, @AuthenticationPrincipal Account account) {
+        // Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("name", account.getUsername());
         return "index";
     }
@@ -48,6 +49,19 @@ public class AccountController {
 
         accountRepository.save(accountDTO.toEntity(passwordEncoder.encode(accountDTO.getPassword())));
         return new ResponseEntity<>("{\"msg\" : \"회원가입 성공!\"}", HttpStatus.CREATED);
+    }
+
+    @GetMapping("/sign-up-form")
+    public String getSignUpForm(Model model) {
+        model.addAttribute(new AccountDTO());
+        return "account/sign-up-form";
+    }
+
+    @PostMapping("/sign-up-form")
+    public String signUpForm(@Valid AccountDTO accountDTO, Errors errors) {
+        if (errors.hasErrors()) return "redirect:/sign-up-form";
+        accountRepository.save(accountDTO.toEntity(passwordEncoder.encode(accountDTO.getPassword())));
+        return "redirect:/sign-in";
     }
 
     @GetMapping("/test")

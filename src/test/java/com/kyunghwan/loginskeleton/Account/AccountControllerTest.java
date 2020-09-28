@@ -213,6 +213,43 @@ public class AccountControllerTest {
         ;
     }
 
+    @DisplayName("회원가입 성공 테스트 - form")
+    @Test
+    public void successSignUpForm() throws Exception {
+        String email = "123@email.com";
+        String password = "password";
+        accountRepository.deleteAll();
+
+        mockMvc.perform(post("/sign-up-form")
+                    .param("email", email)
+                    .param("password", password)
+                    .with(csrf()))
+                .andDo(print())
+                .andExpect(redirectedUrl("/sign-in"))
+                .andExpect(status().is3xxRedirection())
+        ;
+
+        Account account = accountRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
+        assertThat(account.getEmail()).isEqualTo(email);
+        assertThat(account.getPassword()).isNotEqualTo(password);
+    }
+
+    @DisplayName("회원가입 실패 테스트 - form : 이메일 형식 오류")
+    @Test
+    public void failureSignUpForm() throws Exception {
+        String email = "123";
+        String password = "password";
+        // 이메일 형식 오류, 이하 나머지 valid 테스트 생략
+        mockMvc.perform(post("/sign-up-form")
+                    .param("email", email)
+                    .param("password", password)
+                    .with(csrf()))
+                .andDo(print())
+                .andExpect(view().name("redirect:/sign-up-form"))
+                .andExpect(status().is3xxRedirection())
+        ;
+    }
+
     private void saveAccount(String email, String password) {
         accountRepository.deleteAll();
         accountRepository.save(Account.builder()
