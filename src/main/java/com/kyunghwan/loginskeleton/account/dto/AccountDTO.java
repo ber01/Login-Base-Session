@@ -1,6 +1,6 @@
-package com.kyunghwan.loginskeleton.Account.dto;
+package com.kyunghwan.loginskeleton.account.dto;
 
-import com.kyunghwan.loginskeleton.Account.Account;
+import com.kyunghwan.loginskeleton.account.Account;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 

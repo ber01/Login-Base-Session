@@ -1,6 +1,6 @@
-package com.kyunghwan.loginskeleton.Account;
+package com.kyunghwan.loginskeleton.account;
 
-import com.kyunghwan.loginskeleton.Account.dto.AccountDTO;
+import com.kyunghwan.loginskeleton.account.dto.AccountDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

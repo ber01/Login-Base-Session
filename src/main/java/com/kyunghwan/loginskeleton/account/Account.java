@@ -1,4 +1,4 @@
-package com.kyunghwan.loginskeleton.Account;
+package com.kyunghwan.loginskeleton.account;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
