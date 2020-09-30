@@ -258,4 +258,44 @@ public class AccountControllerTest {
                 .build());
     }
 
+    @DisplayName("로그아웃 실패 테스트")
+    @Test
+    public void failureLogout() throws Exception {
+        mockMvc.perform(post("/logout"))
+                .andDo(print())
+                .andExpect(status().isForbidden());
+    }
+
+    @DisplayName("로그아웃 성공 테스트")
+    @Test
+    public void successLogout() throws Exception {
+        String email = "123@email.com";
+        String password = "password";
+        saveAccount(email, password);
+
+        ResultActions resultActions = mockMvc.perform(formLogin()
+                    .loginProcessingUrl("/sign-in")
+                    .user(email)
+                    .password(password))
+                .andDo(print())
+                .andExpect(redirectedUrl("/"))
+                .andExpect(status().is3xxRedirection())
+        ;
+
+        HttpSession session = resultActions.andReturn().getRequest().getSession();
+        assert session != null;
+
+        resultActions = mockMvc.perform(post("/logout")
+                    .session((MockHttpSession) session)
+                    .with(csrf()))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+        ;
+
+        String redirectedUrl = resultActions.andReturn().getResponse().getRedirectedUrl();
+        assert redirectedUrl != null;
+
+        assertThat(redirectedUrl).isEqualTo("/sign-in");
+    }
+
 }
