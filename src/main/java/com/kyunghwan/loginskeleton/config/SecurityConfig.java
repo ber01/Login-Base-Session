@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -15,9 +16,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf()
+                    .requireCsrfProtectionMatcher(new AntPathRequestMatcher("!/h2-console/**"))
+                    .and()
+                .headers()
+                    .frameOptions()
+                    .disable()
                     .and()
                 .authorizeRequests()
-                    .antMatchers("/sign-up", "/sign-up-form").permitAll()
+                    .antMatchers("/sign-up", "/sign-up-form", "/h2-console/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
@@ -25,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                     .and()
                 .logout()
+                    .deleteCookies("JSESSIONID")
                     .logoutSuccessUrl("/sign-in")
         ;
     }
