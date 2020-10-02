@@ -28,3 +28,4 @@
 - H2 Database
 - Validation
 - JUnit Jupiter Params
+- Spring Boot Starter OAuth2 Client
