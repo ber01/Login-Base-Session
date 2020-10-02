@@ -3,6 +3,7 @@ package com.kyunghwan.loginskeleton.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kyunghwan.loginskeleton.account.dto.AccountDTO;
+import com.kyunghwan.loginskeleton.common.AppProperties;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,6 +48,16 @@ public class AccountControllerTest {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AppProperties appProperties;
+
+    @DisplayName("AppProperties 테스트")
+    @Test
+    public void propertiesTest() {
+        assertThat(appProperties.getEmail()).isEqualTo("123@email.com");
+        assertThat(appProperties.getPassword()).isEqualTo("password");
+    }
 
     @DisplayName("인증 없이 메인화면에 접근하는 테스트")
     @Test
