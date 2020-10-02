@@ -1,6 +1,7 @@
 package com.kyunghwan.loginskeleton.account.dto;
 
 import com.kyunghwan.loginskeleton.account.Account;
+import com.kyunghwan.loginskeleton.account.Role;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -26,6 +27,7 @@ public class AccountDTO {
         return Account.builder()
                 .email(this.email)
                 .password(pwd)
+                .role(Role.USER)
                 .build();
     }
 

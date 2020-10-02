@@ -1,5 +1,7 @@
 package com.kyunghwan.loginskeleton.config;
 
+import com.kyunghwan.loginskeleton.auth.OAuth2UserServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,9 +9,12 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final OAuth2UserServiceImpl oAuth2UserService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -32,6 +37,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                     .deleteCookies("JSESSIONID")
                     .logoutSuccessUrl("/sign-in")
+                    .and()
+                .oauth2Login()
+                    // .defaultSuccessUrl("/test")
+                    .userInfoEndpoint()
+                    .userService(oAuth2UserService)
         ;
     }
 

@@ -1,10 +1,11 @@
 package com.kyunghwan.loginskeleton.account;
 
 import com.kyunghwan.loginskeleton.account.dto.AccountDTO;
+import com.kyunghwan.loginskeleton.auth.SessionAccount;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -21,11 +23,17 @@ public class AccountController {
 
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
+    private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String getMain(Model model, @AuthenticationPrincipal Account account) {
-        // Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("name", account.getUsername());
+    public String getMain(Model model) {
+        SessionAccount user = (SessionAccount) httpSession.getAttribute("user");
+        if (user != null) {
+            model.addAttribute("name", user.getEmail());
+        } else {
+            Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            model.addAttribute("name", account.getUsername());
+        }
         return "index";
     }
 
