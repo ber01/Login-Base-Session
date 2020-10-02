@@ -29,7 +29,21 @@
     width: 100%;
 }
 
+.google {
+    background: green;
+    text-align: center;
+    border-radius: 4px;
+    border: none;
+    color: white;
+    margin-bottom: 0.5rem;
+    padding: 1rem;
+}
+
 .error {
     color: red;
     margin-top: 0;
+}
+
+a {
+    text-decoration: none;
 }
