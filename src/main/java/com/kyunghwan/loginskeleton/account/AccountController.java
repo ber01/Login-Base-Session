@@ -1,6 +1,7 @@
 package com.kyunghwan.loginskeleton.account;
 
 import com.kyunghwan.loginskeleton.account.dto.AccountDTO;
+import com.kyunghwan.loginskeleton.account.dto.AccountDTOValidator;
 import com.kyunghwan.loginskeleton.auth.SessionAccount;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,20 +11,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-@Controller
 @RequiredArgsConstructor
+@Controller
 public class AccountController {
 
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
     private final HttpSession httpSession;
+    private final AccountDTOValidator accountDTOValidator;
+
+    @InitBinder("accountDTO")
+    public void initBinder(WebDataBinder webDataBinder) {
+        webDataBinder.addValidators(accountDTOValidator);
+    }
 
     @GetMapping("/")
     public String getMain(Model model) {
@@ -50,9 +59,7 @@ public class AccountController {
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(@RequestBody @Valid AccountDTO accountDTO, Errors errors) {
         if (errors.hasErrors()) {
-            if (errors.hasFieldErrors("email") && !errors.hasFieldErrors("password")) return new ResponseEntity<>("이메일 형식이 아닙니다.", HttpStatus.BAD_REQUEST);
-            else if (errors.hasFieldErrors("password") && !errors.hasFieldErrors("email")) return new ResponseEntity<>("비밀번호를 8 ~ 20자 사이로 설정하세요.", HttpStatus.BAD_REQUEST);
-            return new ResponseEntity<>("입력형식을 확인하세요.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
         }
 
         accountRepository.save(accountDTO.toEntity(passwordEncoder.encode(accountDTO.getPassword())));

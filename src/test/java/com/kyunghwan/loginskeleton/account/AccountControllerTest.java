@@ -127,9 +127,9 @@ public class AccountControllerTest {
                 .build();
 
         mockMvc.perform(post("/sign-up")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(accountDTO))
-                .with(csrf()))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(accountDTO))
+                    .with(csrf()))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
         ;
@@ -145,6 +145,27 @@ public class AccountControllerTest {
                 Arguments.of("email@email.com", "111111111111111111111111111", "패스워드 20자 초과"),
                 Arguments.of("email", "11", "이메일, 패스워드 형식 오류")
         );
+    }
+
+    @DisplayName("회원가입 실패 테스트 - 존재하는 이메일")
+    @Test
+    public void failureSignUpExistEmail() throws Exception {
+        String email = "123@email.com";
+        String password = "password";
+        saveAccount(email, password);
+
+        AccountDTO accountDTO = AccountDTO.builder()
+                .email(email)
+                .password(password)
+                .build();
+
+        mockMvc.perform(post("/sign-up")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(accountDTO))
+                    .with(csrf()))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+        ;
     }
 
     @DisplayName("로그인 성공 테스트")
