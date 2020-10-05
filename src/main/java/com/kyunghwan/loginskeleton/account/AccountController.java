@@ -5,7 +5,6 @@ import com.kyunghwan.loginskeleton.account.dto.AccountDTOValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,8 +31,7 @@ public class AccountController {
     }
 
     @GetMapping("/")
-    public String getMain(Model model) {
-        Account account = ((AccountAdapter) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAccount();
+    public String getMain(Model model, @AuthAccount Account account) {
         model.addAttribute("name", account.getEmail());
         return "index";
     }
@@ -72,7 +70,8 @@ public class AccountController {
     }
 
     @GetMapping("/test")
-    public String getTest() {
+    public String getTest(Model model, @AuthAccount Account account) {
+        model.addAttribute("name", account.getEmail());
         return "test";
     }
 
