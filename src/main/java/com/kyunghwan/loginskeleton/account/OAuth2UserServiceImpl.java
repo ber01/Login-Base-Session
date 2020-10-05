@@ -1,9 +1,6 @@
-package com.kyunghwan.loginskeleton.auth;
+package com.kyunghwan.loginskeleton.account;
 
-import com.kyunghwan.loginskeleton.account.Account;
-import com.kyunghwan.loginskeleton.account.AccountAdapter;
-import com.kyunghwan.loginskeleton.account.AccountRepository;
-import com.kyunghwan.loginskeleton.auth.dto.OAuthAttributes;
+import com.kyunghwan.loginskeleton.account.dto.OAuthAttributes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;

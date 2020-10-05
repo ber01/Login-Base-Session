@@ -27,17 +27,10 @@ public class Account {
 
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
     public Account update(String name, String picture) {
         this.name = name;
         this.picture = picture;
         return this;
-    }
-
-    public String getRoleKey() {
-        return this.role.getKey();
     }
 
 }

@@ -1,7 +1,6 @@
-package com.kyunghwan.loginskeleton.auth.dto;
+package com.kyunghwan.loginskeleton.account.dto;
 
 import com.kyunghwan.loginskeleton.account.Account;
-import com.kyunghwan.loginskeleton.account.Role;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -44,7 +43,6 @@ public class OAuthAttributes {
                 .name(name)
                 .email(email)
                 .picture(picture)
-                .role(Role.USER)
                 .build();
     }
 

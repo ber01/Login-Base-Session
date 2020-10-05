@@ -1,6 +1,6 @@
 package com.kyunghwan.loginskeleton.account;
 
-import com.kyunghwan.loginskeleton.auth.dto.OAuthAttributes;
+import com.kyunghwan.loginskeleton.account.dto.OAuthAttributes;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

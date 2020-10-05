@@ -1,6 +1,6 @@
 package com.kyunghwan.loginskeleton.config;
 
-import com.kyunghwan.loginskeleton.auth.OAuth2UserServiceImpl;
+import com.kyunghwan.loginskeleton.account.OAuth2UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
