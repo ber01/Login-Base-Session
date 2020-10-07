@@ -6,16 +6,16 @@ plugins {
     id 'com.github.kt3k.coveralls' version '2.6.3'
 }
 
-group = 'com.kyunghwan'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
-
 jacocoTestReport {
     reports {
         xml.enabled = true // coveralls plugin depends on xml format report
         html.enabled = true
     }
 }
+
+group = 'com.kyunghwan'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
 
 configurations {
     compileOnly {
