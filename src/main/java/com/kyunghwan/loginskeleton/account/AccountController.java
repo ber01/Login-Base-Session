@@ -49,7 +49,7 @@ public class AccountController {
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(@RequestBody @Valid AccountDTO accountDTO, Errors errors) {
         if (errors.hasErrors()) {
-            return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("{\"msg\" : \"error!\"}", HttpStatus.BAD_REQUEST);
         }
 
         accountRepository.save(accountDTO.toEntity(passwordEncoder.encode(accountDTO.getPassword())));

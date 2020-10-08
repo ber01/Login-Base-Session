@@ -20,8 +20,8 @@ $("#sign_up_btn").click( function (event) {
                 alert(data['msg']);
                 location.href = '/';
             },
-            error: function (data) {
-                alert(data.responseText);
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(textStatus);
             }
         });
 
