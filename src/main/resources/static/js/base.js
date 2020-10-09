@@ -17,11 +17,20 @@ $("#sign_up_btn").click( function (event) {
                 xhr.setRequestHeader(header, token);
             },
             success: function (data) {
-                alert(data['msg']);
+                // 아래 3개 전부 가능
+                alert(data.msg);
+                // alert(data["msg"]);
+                // alert(data['msg']);
                 location.href = '/';
             },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert(textStatus);
+            error: function (xhr, textStatus, errorThrown) {
+                const data = JSON.parse(xhr.responseText);
+                // console.log(data);
+                // 아래 3개 전부 가능
+                // console.log(data['msg']);
+                // console.log(data["msg"]);
+                // console.log(data.msg);
+                alert(data.msg)
             }
         });
 
