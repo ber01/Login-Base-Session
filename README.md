@@ -42,6 +42,10 @@ com
 
 ## API 스펙
 
+<details>
+
+<div markdown="1">
+
 | HTTP 메서드 |   요청 URL    | 인증 여부 |               응답                | HTTP 상태 |
 | :---------: | :-----------: | :-------: | :-------------------------------: | :-------: |
 |    `GET`    |   /sign-in    |     -     |    로그인 페이지를 반환합니다.    |   `200`   |
@@ -92,15 +96,15 @@ com
 - `Response` 예시 
 
   1.  `CREATED`
-
-     ```
-     Status = 201
-     Error message = null
-     Headers = [Content-Type:"text/plain;charset=UTF-8", Content-Length:"32", X-Content-Type-Options:"nosniff", X-XSS-Protection:"1; mode=block", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0"]
-     Content type = text/plain;charset=UTF-8
-     Body = {"msg" : "회원가입 성공!"}
-     ```
-
+  
+         ```
+        Status = 201
+         Error message = null
+         Headers = [Content-Type:"text/plain;charset=UTF-8", Content-Length:"32", X-Content-Type-Options:"nosniff", X-XSS-Protection:"1; mode=block", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0"]
+         Content type = text/plain;charset=UTF-8
+         Body = {"msg" : "회원가입 성공!"}
+        ```
+  
   2. `BAD_REQUEST` 
 
      ```
@@ -134,6 +138,10 @@ com
   |  username  | `String` |  이메일   |
   |  password  | `String` | 비밀번호  |
   |   _csrf    | `String` | csrf 토큰 |
+
+</div>
+
+</details>
 
 ## DB 스키마
 
