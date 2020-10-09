@@ -1,4 +1,4 @@
-# Spring Security Login Skeleton
+# Login Base Session
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.org/ber01/Spring-Security-Login-Skeleton.svg?branch=master)](https://travis-ci.org/ber01/Spring-Security-Login-Skeleton) [![Coverage Status](https://coveralls.io/repos/github/ber01/Spring-Security-Login-Skeleton/badge.svg?branch=master)](https://coveralls.io/github/ber01/Spring-Security-Login-Skeleton?branch=master)
 
 자주 사용되는 로그인, 회원가입 기능에 대한 베이스 코드를 작성한 뒤 향후 프로젝트에 적용하기 위해 만든 저장소입니다.
@@ -45,6 +45,7 @@ com
 <details>
 
 <div markdown="1">
+
 
 | HTTP 메서드 |   요청 URL    | 인증 여부 |               응답                | HTTP 상태 |
 | :---------: | :-----------: | :-------: | :-------------------------------: | :-------: |
